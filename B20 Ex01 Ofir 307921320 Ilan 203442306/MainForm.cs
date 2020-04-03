@@ -16,8 +16,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 {
     public partial class MainForm : Form
     {
-        FacebookApp facebookApp;
-        //User loggedInUser;
+        private FacebookApp facebookApp;
 
         public MainForm(FacebookApp facebookApp)
         {
@@ -50,39 +49,15 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
             labelFullName.Text = loggedInUser.FirstName + " " + loggedInUser.LastName;
             labelBirthday.Text = loggedInUser.Birthday;
             labelGender.Text = loggedInUser.Gender.Value.ToString();
-            //labelRelationsipStatus.Text = loggedInUser.RelationshipStatus.Value.ToString();
         }
 
         private void buttonGetTopCities_Click(object sender, EventArgs e)
         {
-            //facebookApp.getTopCities();
-            Dictionary<String, int> i_topCitiesMap = new Dictionary<string, int>();
-            FacebookObjectCollection<Post> userPosts = facebookApp.getPosts();
-            foreach (Post post in userPosts)
+            List<KeyValuePair<string, int>> orderedList = facebookApp.getTopCities();
+            foreach (KeyValuePair<string, int> location in orderedList)
             {
-                if (post.Place != null && post.Place.Location != null && post.Place.Location.City != null)
-                {
-                    String location = post.Place.Location.City;
-                    int value = 1;
-                    if (i_topCitiesMap.ContainsKey(location))
-                    {
-                        value = i_topCitiesMap[location];
-                        i_topCitiesMap[location] = ++value;
-                    }
-                    else
-                    {
-                        i_topCitiesMap.Add(location, value);
-                    }
-                    listBoxTopCities.Items.Add(location);
-                }
+                listBoxTopCities.Items.Add(location.Key);
             }
-            i_topCitiesMap["Taba"] = 4;
-            i_topCitiesMap.OrderBy(record => record.Value);
-            IOrderedEnumerable< KeyValuePair<String, int>> ordered = i_topCitiesMap.OrderBy(record => record.Value);
-            /////////////////////////// find 3 or 5 highest values adn add them to listBoxTopCities
-            var iterator = ordered.GetEnumerator();
-
-            //listBoxTopCities.Items.Add(i_toCitiesMap....);
         }
 
 
