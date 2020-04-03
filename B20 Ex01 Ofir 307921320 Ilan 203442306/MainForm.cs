@@ -16,25 +16,53 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 {
     public partial class MainForm : Form
     {
-        private FacebookApp facebookApp;
+        private FacebookApp m_facebookApp;
 
-        public MainForm(FacebookApp facebookApp)
+        public MainForm(FacebookApp i_facebookApp)
         {
-            this.facebookApp = facebookApp;
+            this.m_facebookApp = i_facebookApp;
             InitializeComponent();
+
+            // this.StartPosition = FormStartPosition.Manual;
+            AppSettings appSettings = m_facebookApp.GetAppSettings();
+            this.checkBoxRemmemberMe.Checked = appSettings.RemmemberUser;
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            bool isConnected = m_facebookApp.ConnectUser();
+            if (isConnected)
+            {
+                initUserUIData();
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            bool remmemberMe = this.checkBoxRemmemberMe.Checked;
+            m_facebookApp.ShutDown(remmemberMe);
+        }
 
         private void buttonGetAccessToken_Click(object sender, EventArgs e)
         {
-            facebookApp.loginUser();
+            m_facebookApp.LoginUser();
             initUserUIData();
-            fetchUserPosts();
+        }
+
+        private void fetchUserFriends()
+        {
+            FacebookObjectCollection<User> userFriends = m_facebookApp.GetFriends();
+            foreach (User friend in userFriends)
+            {
+                this.listBoxFriends.Items.Add(friend.FirstName + " " + friend.LastName);
+            }
         }
 
         private void fetchUserPosts()
         {
-            FacebookObjectCollection<Post> userPosts = facebookApp.getPosts();
+            FacebookObjectCollection<Post> userPosts = m_facebookApp.GetPosts();
             foreach(Post post in userPosts)
             {
                 addPostToListView(listViewPosts, post);
@@ -43,33 +71,40 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 
         private void initUserUIData()
         {
-            User loggedInUser = facebookApp.getLoggedInUser();
+            fetchUserAbout();
+            fetchUserFriends();
+            fetchUserPosts();
+        }
+
+        private void fetchUserAbout()
+        {
+            User loggedInUser = m_facebookApp.GetLoggedInUser();
             labelConnectionStatus.Text = "Connected";
             pictureBoxProfilePicture.Load(loggedInUser.PictureNormalURL);
             labelFullName.Text = loggedInUser.FirstName + " " + loggedInUser.LastName;
             labelBirthday.Text = loggedInUser.Birthday;
             labelGender.Text = loggedInUser.Gender.Value.ToString();
+            this.Text = "Logged in as " + loggedInUser.FirstName + " " + loggedInUser.LastName;
         }
 
         private void buttonGetTopCities_Click(object sender, EventArgs e)
         {
-            List<KeyValuePair<string, int>> orderedList = facebookApp.getTopCities();
+            List<KeyValuePair<string, int>> orderedList = m_facebookApp.GetTopCities();
             foreach (KeyValuePair<string, int> location in orderedList)
             {
                 listBoxTopCities.Items.Add(location.Key);
             }
         }
 
-
         private void buttonSearchPostByCity_Click(object sender, EventArgs e)
         {
-            String searchedValue = textBoxSearchPostByCity.Text;
-            FacebookObjectCollection<Post> userPosts = facebookApp.getPosts();
+            string searchedValue = textBoxSearchPostByCity.Text.ToLower();
+            FacebookObjectCollection<Post> userPosts = m_facebookApp.GetPosts();
             foreach (Post post in userPosts)
             {
                 if (post.Place != null && post.Place.Location != null && post.Place.Location.City != null)
                 {
-                    String location = post.Place.Location.City;
+                    string location = post.Place.Location.City.ToLower();
                     if (searchedValue.Equals(location))
                     {
                         addPostToListView(listViewPostByCity, post);
@@ -78,86 +113,31 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
             }
         }
 
-        private void addPostToListView(ListView listView, Post post)
+        private void addPostToListView(ListView i_listView, Post i_post)
         {
-            if (post.Type == Post.eType.photo)
+            if (i_post.Type == Post.eType.photo)
             {
                 Bitmap bitmap;
                 using (WebClient client = new WebClient())
                 {
-                    Stream stream = client.OpenRead(post.PictureURL);
+                    Stream stream = client.OpenRead(i_post.PictureURL);
                     bitmap = new Bitmap(stream);
                 }
-                imageListPosts.Images.Add(post.PictureURL, bitmap);
+
+                imageListPosts.Images.Add(i_post.PictureURL, bitmap);
 
                 imageListPosts.ImageSize = new Size(64, 64);
                 imageListPosts.ColorDepth = ColorDepth.Depth32Bit;
-                listView.View = View.LargeIcon;
+                i_listView.View = View.LargeIcon;
 
-                listView.LargeImageList = imageListPosts;
-                String postMessage = post.Message != null ? post.Message : String.Empty;
-                listView.Items.Add(postMessage, post.PictureURL);
+                i_listView.LargeImageList = imageListPosts;
+                string postMessage = i_post.Message != null ? i_post.Message : string.Empty;
+                i_listView.Items.Add(postMessage, i_post.PictureURL);
             }
-            else
+            else if(!string.IsNullOrEmpty(i_post.Message))
             {
-                listView.Items.Add(post.Message);
+                i_listView.Items.Add(i_post.Message);
             }
-        }
-
-        //////////////////////////////////////////////
-        ///
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBoxTopCities_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void pictureBoxProfilePicture_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void listBoxPostsByCity_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void textBoxSearchPostByCity_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void listViewPostByCity_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void label8_Click_1(object sender, EventArgs e)
-        {
-
-        }
-        private void listViewPosts_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

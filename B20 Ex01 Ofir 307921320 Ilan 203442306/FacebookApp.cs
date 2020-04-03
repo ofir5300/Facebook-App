@@ -10,8 +10,14 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 {
     public class FacebookApp
     {
-        private User loggedInUser;
-        String accessToken; ///      /// //////////////////////
+        public AppSettings m_AppSettings;
+        public User m_LoggedInUser;
+        private string m_accessToken; 
+
+        public FacebookApp()
+        {
+            this.m_AppSettings = AppSettings.Load();
+        }
 
         public void Run()
         {
@@ -20,32 +26,42 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
             Application.Run(new MainForm(this));
         }
 
-        public void loginUser()
+        public void LoginUser()
         {
-            LoginResult result = FacebookService.Login("209512230370639", "user_photos", "user_friends", "user_posts", "user_birthday", "user_hometown", "user_status", "user_gender");
-            this.loggedInUser = result.LoggedInUser;
-            this.accessToken = result.AccessToken;  /////// check if neccassary
+            LoginResult result = FacebookService.Login("209512230370639", "user_friends", "user_posts", "user_birthday", "user_gender");
+            this.m_LoggedInUser = result.LoggedInUser;
+            this.m_accessToken = result.AccessToken;
         }
 
-        public User getLoggedInUser()
+        public bool ConnectUser()
         {
-            return this.loggedInUser;
+            if (m_AppSettings.RemmemberUser && !string.IsNullOrEmpty(m_AppSettings.AccessToken))
+            {
+                LoginResult result = FacebookService.Connect(m_AppSettings.AccessToken);
+                this.m_LoggedInUser = result.LoggedInUser;
+                this.m_accessToken = result.AccessToken;
+                return true;
+            }
+
+            return false;
         }
 
-        public FacebookObjectCollection<Post> getPosts()
+        public void ShutDown(bool i_remmemberMe)
         {
-            return this.loggedInUser.Posts;
+            m_AppSettings.RemmemberUser = i_remmemberMe;
+            m_AppSettings.AccessToken = i_remmemberMe ? this.m_accessToken : null;
+            m_AppSettings.SaveToFile();
         }
 
-        public List<KeyValuePair<String, int>> getTopCities()
+        public List<KeyValuePair<string, int>> GetTopCities()
         {
-            Dictionary<String, int> topCitiesMap = new Dictionary<string, int>();
-            FacebookObjectCollection<Post> userPosts = this.getPosts();
+            Dictionary<string, int> topCitiesMap = new Dictionary<string, int>();
+            FacebookObjectCollection<Post> userPosts = this.GetPosts();
             foreach (Post post in userPosts)
             {
                 if (post.Place != null && post.Place.Location != null && post.Place.Location.City != null)
                 {
-                    String location = post.Place.Location.City;
+                    string location = post.Place.Location.City;
                     int value = 1;
                     if (topCitiesMap.ContainsKey(location))
                     {
@@ -58,11 +74,31 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
                     }
                 }
             }
-            List<KeyValuePair<string, int>> orderedList = topCitiesMap.ToList<KeyValuePair<string, int>>();
-            orderedList.Sort((locationA, locationB) => locationB.Value.CompareTo(locationA.Value));
 
-            return orderedList.GetRange(0, 3);
+            List<KeyValuePair<string, int>> o_citiesList = topCitiesMap.ToList<KeyValuePair<string, int>>();
+            o_citiesList.Sort((locationA, locationB) => locationB.Value.CompareTo(locationA.Value));
+
+            return o_citiesList.GetRange(0, 3);
         }
 
+        public FacebookObjectCollection<Post> GetPosts()
+        {
+            return this.m_LoggedInUser.Posts;
+        }
+
+        public FacebookObjectCollection<User> GetFriends()
+        {
+            return this.m_LoggedInUser.Friends;
+        }
+
+        public User GetLoggedInUser()
+        {
+            return this.m_LoggedInUser;
+        }
+
+        public AppSettings GetAppSettings()
+        {
+            return this.m_AppSettings;
+        }
     }
 }

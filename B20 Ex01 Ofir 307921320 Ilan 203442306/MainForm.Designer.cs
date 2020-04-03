@@ -1,6 +1,6 @@
 ﻿namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 {
-    partial class MainForm
+    public partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -51,6 +52,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.listBoxFriends = new System.Windows.Forms.ListBox();
             this.listViewPosts = new System.Windows.Forms.ListView();
+            this.checkBoxRemmemberMe = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +84,6 @@
             this.pictureBoxProfilePicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxProfilePicture.TabIndex = 3;
             this.pictureBoxProfilePicture.TabStop = false;
-            this.pictureBoxProfilePicture.Click += new System.EventHandler(this.pictureBoxProfilePicture_Click);
             // 
             // listBoxTopCities
             // 
@@ -91,7 +92,6 @@
             this.listBoxTopCities.Name = "listBoxTopCities";
             this.listBoxTopCities.Size = new System.Drawing.Size(188, 121);
             this.listBoxTopCities.TabIndex = 4;
-            this.listBoxTopCities.SelectedIndexChanged += new System.EventHandler(this.listBoxTopCities_SelectedIndexChanged);
             // 
             // labelStaticStatus
             // 
@@ -101,7 +101,6 @@
             this.labelStaticStatus.Size = new System.Drawing.Size(43, 13);
             this.labelStaticStatus.TabIndex = 5;
             this.labelStaticStatus.Text = "Status: ";
-            this.labelStaticStatus.Click += new System.EventHandler(this.label1_Click);
             // 
             // labelConnectionStatus
             // 
@@ -136,7 +135,6 @@
             this.textBoxSearchPostByCity.Name = "textBoxSearchPostByCity";
             this.textBoxSearchPostByCity.Size = new System.Drawing.Size(127, 20);
             this.textBoxSearchPostByCity.TabIndex = 9;
-            this.textBoxSearchPostByCity.TextChanged += new System.EventHandler(this.textBoxSearchPostByCity_TextChanged);
             // 
             // buttonSearchPostByCity
             // 
@@ -165,7 +163,6 @@
             this.listViewPostByCity.Size = new System.Drawing.Size(188, 141);
             this.listViewPostByCity.TabIndex = 13;
             this.listViewPostByCity.UseCompatibleStateImageBehavior = false;
-            this.listViewPostByCity.SelectedIndexChanged += new System.EventHandler(this.listViewPostByCity_SelectedIndexChanged);
             // 
             // imageListPosts
             // 
@@ -208,7 +205,6 @@
             this.labelGender.Size = new System.Drawing.Size(67, 13);
             this.labelGender.TabIndex = 20;
             this.labelGender.Text = "__________";
-            this.labelGender.Click += new System.EventHandler(this.label9_Click);
             // 
             // labelBirthday
             // 
@@ -218,7 +214,6 @@
             this.labelBirthday.Size = new System.Drawing.Size(67, 13);
             this.labelBirthday.TabIndex = 19;
             this.labelBirthday.Text = "__________";
-            this.labelBirthday.Click += new System.EventHandler(this.label10_Click);
             // 
             // labelFullName
             // 
@@ -228,7 +223,6 @@
             this.labelFullName.Size = new System.Drawing.Size(67, 13);
             this.labelFullName.TabIndex = 18;
             this.labelFullName.Text = "__________";
-            this.labelFullName.Click += new System.EventHandler(this.label11_Click);
             // 
             // label8
             // 
@@ -238,7 +232,6 @@
             this.label8.Size = new System.Drawing.Size(41, 13);
             this.label8.TabIndex = 22;
             this.label8.Text = "Friends";
-            this.label8.Click += new System.EventHandler(this.label8_Click_1);
             // 
             // listBoxFriends
             // 
@@ -256,13 +249,23 @@
             this.listViewPosts.Size = new System.Drawing.Size(378, 378);
             this.listViewPosts.TabIndex = 24;
             this.listViewPosts.UseCompatibleStateImageBehavior = false;
-            this.listViewPosts.SelectedIndexChanged += new System.EventHandler(this.listViewPosts_SelectedIndexChanged);
             // 
-            // Form1
+            // checkBoxRemmemberMe
+            // 
+            this.checkBoxRemmemberMe.AutoSize = true;
+            this.checkBoxRemmemberMe.Location = new System.Drawing.Point(77, 119);
+            this.checkBoxRemmemberMe.Name = "checkBoxRemmemberMe";
+            this.checkBoxRemmemberMe.Size = new System.Drawing.Size(103, 17);
+            this.checkBoxRemmemberMe.TabIndex = 25;
+            this.checkBoxRemmemberMe.Text = "Remmember Me";
+            this.checkBoxRemmemberMe.UseVisualStyleBackColor = true;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 410);
+            this.Controls.Add(this.checkBoxRemmemberMe);
             this.Controls.Add(this.listViewPosts);
             this.Controls.Add(this.listBoxFriends);
             this.Controls.Add(this.label8);
@@ -284,8 +287,8 @@
             this.Controls.Add(this.pictureBoxProfilePicture);
             this.Controls.Add(this.buttonGetTopCities);
             this.Controls.Add(this.buttonGetAccessToken);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "Not Logged In";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfilePicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -316,6 +319,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ListBox listBoxFriends;
         private System.Windows.Forms.ListView listViewPosts;
+        private System.Windows.Forms.CheckBox checkBoxRemmemberMe;
     }
 }
-
