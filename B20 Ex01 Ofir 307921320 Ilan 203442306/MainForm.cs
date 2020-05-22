@@ -23,7 +23,6 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
             this.m_facebookApp = i_facebookApp;
             InitializeComponent();
 
-            // this.StartPosition = FormStartPosition.Manual;
             AppSettings appSettings = m_facebookApp.GetAppSettings();
             this.checkBoxRemmemberMe.Checked = appSettings.RemmemberUser;
         }

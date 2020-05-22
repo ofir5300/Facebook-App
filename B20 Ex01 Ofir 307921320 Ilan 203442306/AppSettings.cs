@@ -13,7 +13,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
         {
             get
             {
-                if (s_instance != null)
+                if (s_instance == null)
                 {
                     s_instance = new AppSettings();
                 }
@@ -45,6 +45,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
                     o_appSettings = serializer.Deserialize(stream) as AppSettings;
                 }
             }
+            s_instance = o_appSettings;
 
             return o_appSettings;
         }
