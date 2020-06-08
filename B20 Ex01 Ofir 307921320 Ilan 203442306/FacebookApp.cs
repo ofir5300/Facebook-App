@@ -28,7 +28,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 
         public void LoginUser()
         {
-            LoginResult result = FacebookService.Login("209512230370639", "user_friends", "user_posts", "user_birthday", "user_gender");
+            LoginResult result = FacebookService.Login("209512230370639", "user_friends", "user_posts", "user_birthday", "user_gender", "user_likes");
             this.m_LoggedInUser = result.LoggedInUser;
             this.m_accessToken = result.AccessToken;
         }
@@ -84,6 +84,20 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
         public FacebookObjectCollection<Post> GetPosts()
         {
             return this.m_LoggedInUser.Posts;
+        }
+
+        public FacebookObjectCollection<Status> GetStatuses()
+        {
+           // Array validStatuses = new Array();
+            FacebookObjectCollection < Status > statuses = this.m_LoggedInUser.Statuses;
+            foreach(Status status in statuses)
+            {
+                if (status.Message != null)
+                {
+                //    validStatuses.push()
+                }
+            }
+            return this.m_LoggedInUser.Statuses;
         }
 
         public FacebookObjectCollection<User> GetFriends()

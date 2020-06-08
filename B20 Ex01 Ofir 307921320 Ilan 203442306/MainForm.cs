@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using Facebook;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+using System.Threading;
+using B20_Ex01_Ofir_307921320_Ilan_203442306;
 
 namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 {
@@ -55,40 +57,49 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
             FacebookObjectCollection<User> userFriends = m_facebookApp.GetFriends();
             foreach (User friend in userFriends)
             {
-                this.listBoxFriends.Items.Add(friend.FirstName + " " + friend.LastName);
+                this.listBoxFriends.Invoke(new Action(() => this.listBoxFriends.Items.Add(new UserProxy { User = friend })));
             }
         }
 
         private void fetchUserPosts()
         {
             FacebookObjectCollection<Post> userPosts = m_facebookApp.GetPosts();
-            foreach(Post post in userPosts)
+            foreach (Post post in userPosts)
             {
                 addPostToListView(listViewPosts, post);
             }
         }
 
+        private void fetchUserStatuses()
+        {
+            listBoxStatuses.Invoke(new Action(() => statusBindingSource.DataSource = m_facebookApp.GetStatuses()));
+        }
+
         private void initUserUIData()
         {
-            fetchUserAbout();
-            fetchUserFriends();
-            fetchUserPosts();
+            new Thread(fetchUserAbout).Start();
+            new Thread(fetchUserFriends).Start();
+            new Thread(fetchUserPosts).Start();
+            new Thread(fetchUserStatuses).Start();
         }
 
         private void fetchUserAbout()
         {
             User loggedInUser = m_facebookApp.GetLoggedInUser();
-            labelConnectionStatus.Text = "Connected";
-            pictureBoxProfilePicture.Load(loggedInUser.PictureNormalURL);
-            labelFullName.Text = loggedInUser.FirstName + " " + loggedInUser.LastName;
-            labelBirthday.Text = loggedInUser.Birthday;
-            labelGender.Text = loggedInUser.Gender.Value.ToString();
-            this.Text = "Logged in as " + loggedInUser.FirstName + " " + loggedInUser.LastName;
+
+            //  invoke UI components actions by the thread created it 
+            labelConnectionStatus.Invoke(new Action(() => labelConnectionStatus.Text = "Connected" ));
+            pictureBoxProfilePicture.Invoke(new Action(() => pictureBoxProfilePicture.Load(loggedInUser.PictureNormalURL) ));
+            labelFullName.Invoke(new Action(() => labelFullName.Text = loggedInUser.FirstName + " " + loggedInUser.LastName ));
+            labelBirthday.Invoke(new Action(() => labelBirthday.Text = loggedInUser.Birthday ));
+            labelGender.Invoke(new Action(() => labelGender.Text = loggedInUser.Gender.Value.ToString() ));
+            this.Invoke(new Action(() => this.Text = "Logged in as " + loggedInUser.FirstName + " " + loggedInUser.LastName ));
         }
 
         private void buttonGetTopCities_Click(object sender, EventArgs e)
         {
             List<KeyValuePair<string, int>> orderedList = m_facebookApp.GetTopCities();
+            listBoxTopCities.Items.Clear();
             foreach (KeyValuePair<string, int> location in orderedList)
             {
                 listBoxTopCities.Items.Add(location.Key);
@@ -98,7 +109,10 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
         private void buttonSearchPostByCity_Click(object sender, EventArgs e)
         {
             string searchedValue = textBoxSearchPostByCity.Text.ToLower();
+            bool valueFound = false;
             FacebookObjectCollection<Post> userPosts = m_facebookApp.GetPosts();
+
+            listViewPostByCity.Items.Clear();
             foreach (Post post in userPosts)
             {
                 if (post.Place != null && post.Place.Location != null && post.Place.Location.City != null)
@@ -107,36 +121,66 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
                     if (searchedValue.Equals(location))
                     {
                         addPostToListView(listViewPostByCity, post);
+                        valueFound = true;
                     }
                 }
+            }
+
+            if (!valueFound)
+            {
+                listViewPostByCity.Items.Add(String.Format("No post from {0}", searchedValue));
             }
         }
 
         private void addPostToListView(ListView i_listView, Post i_post)
         {
-            if (i_post.Type == Post.eType.photo)
+            FacebookPostsListViewAdapter listViewAdapter = new FacebookPostsListViewAdapter
             {
-                Bitmap bitmap;
-                using (WebClient client = new WebClient())
-                {
-                    Stream stream = client.OpenRead(i_post.PictureURL);
-                    bitmap = new Bitmap(stream);
-                }
+                ListViewDestination = i_listView,
+                ImageListSource = imageListPosts
+            };
+            listViewAdapter.AddPostToListView(i_post);
+        }
 
-                imageListPosts.Images.Add(i_post.PictureURL, bitmap);
-
-                imageListPosts.ImageSize = new Size(64, 64);
-                imageListPosts.ColorDepth = ColorDepth.Depth32Bit;
-                i_listView.View = View.LargeIcon;
-
-                i_listView.LargeImageList = imageListPosts;
-                string postMessage = i_post.Message != null ? i_post.Message : string.Empty;
-                i_listView.Items.Add(postMessage, i_post.PictureURL);
-            }
-            else if(!string.IsNullOrEmpty(i_post.Message))
+        private void listViewPosts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listViewPosts.SelectedItems.Count > 0 && listViewPosts.SelectedItems[0] != null)
             {
-                i_listView.Items.Add(i_post.Message);
+                object selectedItem = listViewPosts.SelectedItems[0];
             }
+            // m_facrbookApp.getPosts search reference by photoUrl, not found -> search by post text
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void postBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void statusBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+    }
+    public class UserProxy
+    {
+        public User User { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("[{0}]: {1} {2}", User.Birthday, User.LastName, User.FirstName);
         }
     }
+
+
 }
+
+
+
+
