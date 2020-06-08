@@ -111,6 +111,16 @@
             label7.TabIndex = 10;
             label7.Text = "Status Details:";
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            label9.Location = new System.Drawing.Point(3, 8);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(60, 13);
+            label9.TabIndex = 11;
+            label9.Text = "Statuses:";
+            // 
             // buttonGetAccessToken
             // 
             this.buttonGetAccessToken.Location = new System.Drawing.Point(12, 115);
@@ -305,7 +315,6 @@
             this.listViewPosts.Size = new System.Drawing.Size(144, 378);
             this.listViewPosts.TabIndex = 24;
             this.listViewPosts.UseCompatibleStateImageBehavior = false;
-            this.listViewPosts.SelectedIndexChanged += new System.EventHandler(this.listViewPosts_SelectedIndexChanged);
             // 
             // checkBoxRemmemberMe
             // 
@@ -345,7 +354,6 @@
             // statusBindingSource
             // 
             this.statusBindingSource.DataSource = typeof(FacebookWrapper.ObjectModel.Status);
-            this.statusBindingSource.CurrentChanged += new System.EventHandler(this.statusBindingSource_CurrentChanged);
             // 
             // idLabel1
             // 
@@ -358,7 +366,7 @@
             // 
             // messageTextBox
             // 
-            this.messageTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.statusBindingSource, "Message", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.messageTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.statusBindingSource, "Message", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, "No Message"));
             this.messageTextBox.Location = new System.Drawing.Point(281, 79);
             this.messageTextBox.Multiline = true;
             this.messageTextBox.Name = "messageTextBox";
@@ -374,16 +382,6 @@
             this.listBoxStatuses.Name = "listBoxStatuses";
             this.listBoxStatuses.Size = new System.Drawing.Size(176, 121);
             this.listBoxStatuses.TabIndex = 4;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            label9.Location = new System.Drawing.Point(3, 8);
-            label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(60, 13);
-            label9.TabIndex = 11;
-            label9.Text = "Statuses:";
             // 
             // MainForm
             // 

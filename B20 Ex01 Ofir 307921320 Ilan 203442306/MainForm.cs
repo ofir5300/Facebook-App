@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,7 +12,6 @@ using System.Windows.Forms;
 using Facebook;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
-using System.Threading;
 using B20_Ex01_Ofir_307921320_Ilan_203442306;
 
 namespace B20_Ex01_Ofir_307921320_Ilan_203442306
@@ -87,7 +87,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
         {
             User loggedInUser = m_facebookApp.GetLoggedInUser();
 
-            //  invoke UI components actions by the thread created it 
+            ////  invoke UI components actions by the thread created it 
             labelConnectionStatus.Invoke(new Action(() => labelConnectionStatus.Text = "Connected" ));
             pictureBoxProfilePicture.Invoke(new Action(() => pictureBoxProfilePicture.Load(loggedInUser.PictureNormalURL) ));
             labelFullName.Invoke(new Action(() => labelFullName.Text = loggedInUser.FirstName + " " + loggedInUser.LastName ));
@@ -128,7 +128,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 
             if (!valueFound)
             {
-                listViewPostByCity.Items.Add(String.Format("No post from {0}", searchedValue));
+                listViewPostByCity.Items.Add(string.Format("No post from {0}", searchedValue));
             }
         }
 
@@ -141,46 +141,5 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
             };
             listViewAdapter.AddPostToListView(i_post);
         }
-
-        private void listViewPosts_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listViewPosts.SelectedItems.Count > 0 && listViewPosts.SelectedItems[0] != null)
-            {
-                object selectedItem = listViewPosts.SelectedItems[0];
-            }
-            // m_facrbookApp.getPosts search reference by photoUrl, not found -> search by post text
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void postBindingSource_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void statusBindingSource_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
     }
-    public class UserProxy
-    {
-        public User User { get; set; }
-
-        public override string ToString()
-        {
-            return string.Format("[{0}]: {1} {2}", User.Birthday, User.LastName, User.FirstName);
-        }
-    }
-
-
 }
-
-
-
-

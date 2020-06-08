@@ -49,8 +49,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
                     ListViewDestination.View = View.LargeIcon;
                     ListViewDestination.LargeImageList = ImageListSource;       // imageList as pictures data source
                     ListViewDestination.Items.Add(i_message, i_pictureURL);     //  load message and picture to listView
-                }
-                ));
+                }));
             }
             else if (ListViewDestination == null)
             {

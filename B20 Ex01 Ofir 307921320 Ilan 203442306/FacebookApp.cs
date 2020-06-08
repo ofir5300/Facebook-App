@@ -88,16 +88,18 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 
         public FacebookObjectCollection<Status> GetStatuses()
         {
-           // Array validStatuses = new Array();
-            FacebookObjectCollection < Status > statuses = this.m_LoggedInUser.Statuses;
+            FacebookObjectCollection<Status> nonEmptyStatuses = new FacebookObjectCollection<Status>();
+            FacebookObjectCollection<Status> statuses = this.m_LoggedInUser.Statuses;
+
             foreach(Status status in statuses)
             {
                 if (status.Message != null)
                 {
-                //    validStatuses.push()
+                    nonEmptyStatuses.Add(status);
                 }
             }
-            return this.m_LoggedInUser.Statuses;
+
+            return nonEmptyStatuses;
         }
 
         public FacebookObjectCollection<User> GetFriends()

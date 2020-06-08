@@ -1,16 +1,18 @@
-﻿using FacebookWrapper.ObjectModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FacebookWrapper.ObjectModel;
 
 namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 {
-    public class FacebookPostsListViewAdapter //  use of adapter pattern
+    public class FacebookPostsListViewAdapter
     {
-
+        private ListViewFacade m_listViewAdoptee;
         private ListView m_listView;
+        private ImageList m_imageList;
+
         public ListView ListViewDestination
         {
             get { return this.m_listView; }
@@ -20,7 +22,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
                 this.m_listViewAdoptee.ListViewDestination = m_listView;
             }
         }
-        private ImageList m_imageList;
+
         public ImageList ImageListSource
         {
             get { return this.m_imageList; }
@@ -30,7 +32,6 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
                 this.m_listViewAdoptee.ImageListSource = m_imageList;
             }
         }
-        private ListViewFacade m_listViewAdoptee;
 
         public FacebookPostsListViewAdapter()
         {
