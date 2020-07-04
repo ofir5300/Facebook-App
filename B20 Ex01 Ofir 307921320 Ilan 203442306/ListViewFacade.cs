@@ -9,9 +9,10 @@ using System.Windows.Forms;
 
 namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 {
-    public class ListViewFacade //  Legacy Component
+    public class ListViewFacade     ////  This class represents a Legacy Component
     {
         public ListView ListViewDestination { get; set; }
+
         public ImageList ImageListSource { get; set; }
 
         public void AddMessageToListView(string i_message)
@@ -28,7 +29,7 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
 
         public void AddPictureToListView(string i_pictureURL)
         {
-            AddPictureAndMessageToListView(i_pictureURL, "");
+            AddPictureAndMessageToListView(i_pictureURL, string.Empty);
         }
 
         public void AddPictureAndMessageToListView(string i_pictureURL, string i_message)
@@ -47,8 +48,8 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
                     ImageListSource.Images.Add(i_pictureURL, bitmap);
 
                     ListViewDestination.View = View.LargeIcon;
-                    ListViewDestination.LargeImageList = ImageListSource;       // imageList as pictures data source
-                    ListViewDestination.Items.Add(i_message, i_pictureURL);     //  load message and picture to listView
+                    ListViewDestination.LargeImageList = ImageListSource;       ////    imageList as pictures data source
+                    ListViewDestination.Items.Add(i_message, i_pictureURL);     ////    load message and picture to listView
                 }));
             }
             else if (ListViewDestination == null)

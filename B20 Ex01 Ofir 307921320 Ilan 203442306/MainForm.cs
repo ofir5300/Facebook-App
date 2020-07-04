@@ -109,26 +109,30 @@ namespace B20_Ex01_Ofir_307921320_Ilan_203442306
         private void buttonSearchPostByCity_Click(object sender, EventArgs e)
         {
             string searchedValue = textBoxSearchPostByCity.Text.ToLower();
-            bool valueFound = false;
             FacebookObjectCollection<Post> userPosts = m_facebookApp.GetPosts();
+            ISearchPostStrategy searchStrategy = null;
 
-            listViewPostByCity.Items.Clear();
-            foreach (Post post in userPosts)
+            if(radioButtonContent.Checked)
             {
-                if (post.Place != null && post.Place.Location != null && post.Place.Location.City != null)
-                {
-                    string location = post.Place.Location.City.ToLower();
-                    if (searchedValue.Equals(location))
-                    {
-                        addPostToListView(listViewPostByCity, post);
-                        valueFound = true;
-                    }
-                }
+                searchStrategy = new SearchByContentStrategy();
+            } else if(radioButtonLocation.Checked)
+            {
+                searchStrategy = new SearchByLocationStrategy();
             }
 
-            if (!valueFound)
+            listViewPostByCity.Items.Clear();
+            List<Post> values = searchStrategy.search(userPosts, searchedValue);
+
+            if (!values.Any())
             {
                 listViewPostByCity.Items.Add(string.Format("No post from {0}", searchedValue));
+            }
+            else
+            {
+                foreach (Post post in values)
+                {
+                    addPostToListView(listViewPostByCity, post);
+                }
             }
         }
 

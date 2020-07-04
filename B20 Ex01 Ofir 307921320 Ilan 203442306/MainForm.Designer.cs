@@ -64,6 +64,10 @@
             this.idLabel1 = new System.Windows.Forms.Label();
             this.messageTextBox = new System.Windows.Forms.TextBox();
             this.listBoxStatuses = new System.Windows.Forms.ListBox();
+            this.radioButtonLocation = new System.Windows.Forms.RadioButton();
+            this.radioButtonContent = new System.Windows.Forms.RadioButton();
+            this.radioButtonDate = new System.Windows.Forms.RadioButton();
+            this.label10 = new System.Windows.Forms.Label();
             createdTimeLabel = new System.Windows.Forms.Label();
             idLabel = new System.Windows.Forms.Label();
             messageLabel = new System.Windows.Forms.Label();
@@ -216,16 +220,16 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(349, 12);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(136, 13);
+            this.label4.Size = new System.Drawing.Size(72, 13);
             this.label4.TabIndex = 11;
-            this.label4.Text = "Find posts from specific city";
+            this.label4.Text = "Search posts:";
             // 
             // listViewPostByCity
             // 
             this.listViewPostByCity.HideSelection = false;
-            this.listViewPostByCity.Location = new System.Drawing.Point(352, 55);
+            this.listViewPostByCity.Location = new System.Drawing.Point(352, 94);
             this.listViewPostByCity.Name = "listViewPostByCity";
-            this.listViewPostByCity.Size = new System.Drawing.Size(188, 141);
+            this.listViewPostByCity.Size = new System.Drawing.Size(188, 102);
             this.listViewPostByCity.TabIndex = 13;
             this.listViewPostByCity.UseCompatibleStateImageBehavior = false;
             // 
@@ -383,11 +387,56 @@
             this.listBoxStatuses.Size = new System.Drawing.Size(176, 121);
             this.listBoxStatuses.TabIndex = 4;
             // 
+            // radioButtonLocation
+            // 
+            this.radioButtonLocation.AutoSize = true;
+            this.radioButtonLocation.Checked = true;
+            this.radioButtonLocation.Location = new System.Drawing.Point(352, 71);
+            this.radioButtonLocation.Name = "radioButtonLocation";
+            this.radioButtonLocation.Size = new System.Drawing.Size(66, 17);
+            this.radioButtonLocation.TabIndex = 27;
+            this.radioButtonLocation.TabStop = true;
+            this.radioButtonLocation.Text = "Location";
+            this.radioButtonLocation.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonContent
+            // 
+            this.radioButtonContent.AutoSize = true;
+            this.radioButtonContent.Location = new System.Drawing.Point(424, 71);
+            this.radioButtonContent.Name = "radioButtonContent";
+            this.radioButtonContent.Size = new System.Drawing.Size(62, 17);
+            this.radioButtonContent.TabIndex = 28;
+            this.radioButtonContent.Text = "Content";
+            this.radioButtonContent.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDate
+            // 
+            this.radioButtonDate.AutoSize = true;
+            this.radioButtonDate.Location = new System.Drawing.Point(492, 71);
+            this.radioButtonDate.Name = "radioButtonDate";
+            this.radioButtonDate.Size = new System.Drawing.Size(48, 17);
+            this.radioButtonDate.TabIndex = 29;
+            this.radioButtonDate.Text = "Date";
+            this.radioButtonDate.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(350, 54);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(58, 13);
+            this.label10.TabIndex = 30;
+            this.label10.Text = "Search by:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 575);
+            this.ClientSize = new System.Drawing.Size(555, 575);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.radioButtonDate);
+            this.Controls.Add(this.radioButtonContent);
+            this.Controls.Add(this.radioButtonLocation);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.checkBoxRemmemberMe);
             this.Controls.Add(this.listViewPosts);
@@ -453,5 +502,9 @@
         private System.Windows.Forms.Label idLabel1;
         private System.Windows.Forms.TextBox messageTextBox;
         private System.Windows.Forms.BindingSource statusBindingSource;
+        private System.Windows.Forms.RadioButton radioButtonLocation;
+        private System.Windows.Forms.RadioButton radioButtonContent;
+        private System.Windows.Forms.RadioButton radioButtonDate;
+        private System.Windows.Forms.Label label10;
     }
 }

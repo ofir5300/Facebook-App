@@ -53,6 +53,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="FacebookApp.cs" />
     <Compile Include="FacebookPostsListViewAdapter.cs" />
+    <Compile Include="ISearchPostStrategy.cs" />
     <Compile Include="ListViewFacade.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -60,10 +61,14 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PostsWithLocationCollection.cs" />
+    <Compile Include="PostsWithLocationIterator.cs" />
     <Compile Include="Program.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchByContentStrategy.cs" />
+    <Compile Include="SearchByLocationStrategy.cs" />
     <Compile Include="UserProxy.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -76,6 +81,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\DataSources\FacebookWrapper.ObjectModel.Status.datasource" />
     <None Include="Properties\Settings.settings">
